@@ -1,6 +1,16 @@
 using LaborProject_PWS.Services.EmailServices;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

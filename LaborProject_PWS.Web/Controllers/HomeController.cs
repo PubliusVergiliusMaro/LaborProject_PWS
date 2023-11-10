@@ -17,6 +17,7 @@ namespace LaborProject_PWS.Web.Controllers
 		}
         public IActionResult Index()
         {
+            _logger.LogInformation("This is an information log from HomeController.");
             return View();
         }
         [HttpPost]
