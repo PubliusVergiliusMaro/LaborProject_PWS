@@ -563,3 +563,39 @@
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#submitButton").click(function (event) {
+                event.preventDefault();
+
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var phone = $("#phone").val();
+                var message = $("#message").val();
+
+                var data = {
+                    Name: name,
+                    Email: email,
+                    Phone: phone,
+                    MessageText: message
+                };
+
+                $.ajax({
+                    url: '@Url.Action("SendEmail", "Home")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        // handle success
+                        alert("Data sent successfully.");
+                    },
+                    error: function (error) {
+                        // handle error
+                        alert("Error sending data.");
+                    }
+                });
+            });
+        });
+    </script>
+	}
