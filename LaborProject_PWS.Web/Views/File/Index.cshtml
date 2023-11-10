@@ -1,0 +1,25 @@
+﻿@model List<string>
+<section>
+	<div class="card">
+		<div class="card-header">
+			<h1>Upload Files</h1>
+		</div>
+		<div class="card-body">
+			<form method="post" enctype="multipart/form-data">
+				<input type="file" name="Upload" />
+				<button type="submit">Upload</button>
+			</form>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h1>Download Files</h1>
+		</div>
+		<div class="card-body">
+			@foreach (var file in Model)
+			{
+				<a href="/Files/@file" download="@file" class="btn btn-primary">@file</a>
+			}
+		</div>
+	</div>
+</section>
