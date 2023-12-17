@@ -1,5 +1,7 @@
 using LaborProject_PWS.Services.EmailServices;
+using Microsoft.AspNetCore.Localization;
 using Serilog;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +15,31 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix);
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("ua-UA"),
+        new CultureInfo("de-DE"),
+        new CultureInfo("uk-UA")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("en-US");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
 var app = builder.Build();
+
+app.UseRequestLocalization();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -31,6 +55,12 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "setLanguage",
+    pattern: "{culture}/{controller=Home}/{action=Index}",
+    defaults: new { controller = "Home", action = "Index" }
+);
 
 app.MapControllerRoute(
     name: "default",
