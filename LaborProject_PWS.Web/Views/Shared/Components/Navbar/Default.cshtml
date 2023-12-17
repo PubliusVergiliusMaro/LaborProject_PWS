@@ -1,0 +1,12 @@
+﻿<div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","Home")#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","Home")#portfolio">Portfolio</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","Home")#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","Home")#team">Team</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","Home")#contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Index","File")">File Uploader</a></li>
+        <li class="nav-item"><a class="nav-link" href="@Url.Action("Viewer","FileViewer")">File Viewer</a></li>
+        @await Html.PartialAsync("_LanguageSwitcher")
+    </ul>
+</div>
