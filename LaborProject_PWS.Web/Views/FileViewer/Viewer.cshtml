@@ -1,0 +1,15 @@
+﻿@model IEnumerable<string>
+
+<section>
+    <div class="card">
+        <div class="card-header">
+            <h1>File Viewer</h1>
+        </div>
+        <div class="card-body">
+            @foreach (var fileName in Model)
+            {
+                <img src="@Url.Content("~/files/" + fileName)" alt="Image" style="width: 100%; height: auto;" />
+            }
+        </div>
+    </div>
+</section>

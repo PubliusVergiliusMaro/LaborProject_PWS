@@ -16,22 +16,32 @@ namespace LaborProject_PWS.Web.Controllers
 			var files = Directory.GetFiles(filesPath).Select(Path.GetFileName).ToList();
 			return View(files);
 		}
-		[HttpPost]
-		public async Task<IActionResult> Index(IFormFile Upload)
+        [HttpPost]
+        public async Task<IActionResult> Index(IFormFile Upload)
+        {
+            if (Upload != null)
+            {
+                var fileExtension = Path.GetExtension(Upload.FileName).ToLower();
+
+                if (fileExtension == ".jpg")
+                {
+                    var filePath = Path.Combine(_hostingEnvironment.WebRootPath, "files", Upload.FileName);
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await Upload.CopyToAsync(stream);
+                    }
+                }
+            }
+
+            var filesPath = Path.Combine(_hostingEnvironment.WebRootPath, "files");
+            var files = Directory.GetFiles(filesPath).Select(Path.GetFileName).ToList();
+            return View(files);
+        }
+        [HttpGet]
+		public IActionResult FileView()
 		{
-			if (Upload != null)
-			{
-				var filePath = Path.Combine(_hostingEnvironment.WebRootPath, "files", Upload.FileName);
-
-				using (var stream = System.IO.File.Create(filePath))
-				{
-					await Upload.CopyToAsync(stream);
-				}
-			}
-
-			var filesPath = Path.Combine(_hostingEnvironment.WebRootPath, "files");
-			var files = Directory.GetFiles(filesPath).Select(Path.GetFileName).ToList();
-			return View(files);
+			return View();
 		}
 	}
 }
