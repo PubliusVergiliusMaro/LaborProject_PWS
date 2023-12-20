@@ -1,3 +1,5 @@
+using FluentValidation.AspNetCore;
+using LaborProject_PWS.Domain.Validations;
 using LaborProject_PWS.Services.EmailServices;
 using Microsoft.AspNetCore.Localization;
 using Serilog;
@@ -16,6 +18,7 @@ builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SampleModelValidator>())
     .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix);
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
